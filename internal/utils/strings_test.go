@@ -3,7 +3,7 @@ package utils_test
 import (
 	"testing"
 
-	"gotesting/internal/utils"
+	"github.com/ossan-dev/gotesting/internal/utils"
 )
 
 func TestReverseString(t *testing.T) {
