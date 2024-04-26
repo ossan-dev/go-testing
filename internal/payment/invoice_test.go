@@ -49,3 +49,36 @@ func TestCalculateAmount(t *testing.T) {
 		})
 	}
 }
+
+func TestCalculateAmountSubtesting(t *testing.T) {
+	t.Run("ItemNotInCatalog", func(t *testing.T) {
+		// Arrange
+		itemsPurchased := map[string]int{"mobile phone": 1}
+		itemsPrices := map[string]float64{"TV": 500.00}
+		// Act
+		amount, err := payment.CalculateAmount(itemsPurchased, itemsPrices)
+		// Assert
+		assert.Equal(t, 0.00, amount)
+		assert.Equal(t, "item no longer in catalog", err.Error())
+	})
+	t.Run("PriceMustBePositive", func(t *testing.T) {
+		// Arrange
+		itemsPurchased := map[string]int{"mobile phone": 1}
+		itemsPrices := map[string]float64{"mobile phone": -5.00, "TV": 500.00}
+		// Act
+		amount, err := payment.CalculateAmount(itemsPurchased, itemsPrices)
+		// Assert
+		assert.Equal(t, 0.00, amount)
+		assert.Equal(t, "price cannot be zero or less", err.Error())
+	})
+	t.Run("HappyPath", func(t *testing.T) {
+		// Arrange
+		itemsPurchased := map[string]int{"mobile phone": 2}
+		itemsPrices := map[string]float64{"mobile phone": 350.00, "TV": 500.00}
+		// Act
+		amount, err := payment.CalculateAmount(itemsPurchased, itemsPrices)
+		// Assert
+		assert.Equal(t, 700.00, amount)
+		assert.NoError(t, err)
+	})
+}
