@@ -9,7 +9,7 @@ func IsValidIpOrCidr(addr string) bool {
 		return true
 	}
 	if _, _, err := net.ParseCIDR(addr); err != nil {
-		return true
+		return false
 	}
-	return false
+	return true
 }
