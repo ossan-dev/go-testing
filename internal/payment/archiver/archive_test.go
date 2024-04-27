@@ -8,9 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// mockery --output ./mocks --all
 func TestRecordInvoice(t *testing.T) {
 	// Arrange
-	store := &mocks.Archiver{}
+	store := mocks.NewArchiver(t)
 	store.On("Archive").Return("5ec3fea2-e43f-4d09-8d30-e6ad9757bb6f", nil).Once()
 	invoiceManager := &archiver.InvoiceManager{
 		Archiver: store,
